@@ -17,17 +17,22 @@
       <a href="/" class="navbar-brand">Pizza点餐系统</a>
       <ul class="navbar-nav">
         <!--点击a标签，路由指向'/'路径，然后到main.js中寻找该路由下对应的组件是Home组件-->
-        <li><router-link :to="homeLink"  class="nav-link">主页</router-link></li>
+        <!--<li><router-link :to="homeLink" class="nav-link">主页</router-link></li>-->
+
+        <!--使用路由中添加的name属性来匹配路由的跳转-->
+        <!--1. 一旦匹配到name为homeLink的路由，就会跳转到path为:'/'的路径-->
+        <li><router-link :to="{name:'homeLink'}" class="nav-link">主页</router-link></li>
+
         <!--<li><router-link to="/" tag="div" class="nav-link">主页</router-link></li>-->
-        <li><router-link to="menu" class="nav-link">菜单</router-link></li>
-        <li><router-link to="admin" class="nav-link">管理</router-link></li>
-        <li><router-link to="about" class="nav-link">关于我们</router-link></li>
+        <li><router-link :to="{name:'menuLink'}" class="nav-link">菜单</router-link></li>
+        <li><router-link :to="{name:'adminLink'}" class="nav-link">管理</router-link></li>
+        <li><router-link :to="{name:'aboutLink'}" class="nav-link">关于我们</router-link></li>
       </ul>
 
       <!--ml-auto:margin-left:atuo 在最右侧-->
       <ul class="navbar-nav ml-auto">
-        <li><router-link to="login" class="nav-link">登录</router-link></li>
-        <li><router-link to="register" class="nav-link">注册</router-link></li>
+        <li><router-link :to="{name:'loginLink'}" class="nav-link">登录</router-link></li>
+        <li><router-link :to="{name:'registerLink'}" class="nav-link">注册</router-link></li>
       </ul>
 
     </nav>
@@ -36,11 +41,11 @@
 
 <script>
   export default {
-    data(){
-      return{
-        homeLink:'/'
-      }
-    }
+    // data(){
+    //   return{
+    //     homeLink:'/'
+    //   }
+    // }
   }
 </script>
 

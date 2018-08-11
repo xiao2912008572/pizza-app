@@ -13,12 +13,13 @@ import Register from './components/Register'
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 const routes = [
-  {'path': '/', component: Home},
-  {'path': '/menu', component: Menu},
-  {'path': '/admin', component: Admin},
-  {'path': '/about', component: About},
-  {'path': '/login', component: Login},
-  {'path': '/register', component: Register},
+  //给路由添加name属性
+  {'path': '/', name: "homeLink", component: Home},
+  {'path': '/menu', name: "menuLink", component: Menu},
+  {'path': '/admin', name: "adminLink", component: Admin},
+  {'path': '/about', name: "aboutLink", component: About},
+  {'path': '/login', name: "loginLink", component: Login},
+  {'path': '/register', name: "registerLink", component: Register},
   // 如果上面的都没有匹配上路由,redirect:'/'跳转到根路径下
   {'path': '*', redirect: '/'}
 ];

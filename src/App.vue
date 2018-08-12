@@ -2,9 +2,11 @@
 <template>
   <div id="app">
     <div class="container">
+      <!--导航-->
       <app-header></app-header>
     </div>
     <div class="container">
+      <!--导航所展示的内容-->
       <router-view></router-view>
     </div>
   </div>

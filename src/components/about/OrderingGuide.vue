@@ -1,5 +1,5 @@
 <template>
-<div class="card text-dark bg-light mb-5">
+<div class="card text-dark bg-light mb-5" style="margin-top:8px;">
     <div class="card-header">点餐文档</div>
     <div class="card-body">
       <h4 class="card-title">点餐文档</h4>

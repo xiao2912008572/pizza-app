@@ -3,78 +3,69 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
-import Home from './components/Home'
-import Menu from './components/Menu'
-import Admin from './components/Admin'
-import About from './components/about/About'
-import Login from './components/Login'
-import Register from './components/Register'
-
-// ⚠️ 二级路由
-import Contact from './components/about/Contact'
-import Delivery from './components/about/Delivery'
-import History from './components/about/History'
-import OrderingGuide from './components/about/OrderingGuide'
-
-// ⚠️ 三级路由
-import Phone from './components/about/contact/Phone'
-import PersonName from './components/about/contact/PersonName'
+// 引入routes对象
+import { routes } from './routes'
+// 引入全局axios
+import axios from 'axios'
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
-const routes = [
-  //给路由添加name属性
-  {'path': '/', name: "homeLink", component: Home},
-  {'path': '/menu', name: "menuLink", component: Menu},
-  {'path': '/admin', name: "adminLink", component: Admin},
-  {
-    // children：子路由(数组)
-    // redirect: 默认展示的路径
-    'path': '/about', name: "aboutLink", redirect: "/about/contact", component: About, children: [
-      {
-        path: '/about/contact', name: "contactLink", redirect: "/personname", component: Contact, children: [
-          {path: '/phone', name: "phoneNumber", component: Phone},
-          {path: '/personname', name: "personName", component: PersonName},
-        ]
-      },
-      {path: '/history', name: "historyLink", component: History},
-      {path: '/delivery', name: "deliveryLink", component: Delivery},
-      {path: '/orderingGuide', name: "orderingGuideLink", component: OrderingGuide},
-    ]
-  },
-  {'path': '/login', name: "loginLink", component: Login},
-  {'path': '/register', name: "registerLink", component: Register},
-  // 如果上面的都没有匹配上路由,redirect:'/'跳转到根路径下
-  {'path': '*', redirect: '/'}
-];
+
+// 配置全局的url路径
+axios.defaults.baseURL = 'https://wd2655002152mdkudo.wilddogio.com/'
+
+
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'history',
+
+  // ⚠️ 路由滚动行为
+  // 该方法接收to和from路由对象。
+  // 第三个参数savedPostion当且仅当popstate导航(通过浏览器的 前进/后退按 钮触发)时才可用
+  scrollBehavior(to, from, savedPosition) {
+    // ...
+    // return { x: 0, y: 100 }
+    // return {selector:'.btn'}
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 });
 
-// ⚠️ 全局守卫
+// ⚠️ 1. 全局守卫 - 学习
+// 进入组件之前产生作用
 // 回调函数(to,from.next)
 // 1. to的作用：进入哪个路由
 // 2. from的作用: 从哪个路由离开
 // 3. next的作用: next对应的函数，决定你是否要展示的页面
-router.beforeEach((to, from, next) => {
-  // alert("还没有登录，请先登录！");
-  // next();// 点击确定之后就可以继续
-  // console.log(to)
+// router.beforeEach((to, from, next) => {
+//   // alert("还没有登录，请先登录！");
+//   // next();// 点击确定之后就可以继续
+//   console.log(to)
 
-  // vuex中，判断store.gettes.isLogin === false
-  if (to.path == '/login' || to.path == '/register') {
-    next();
-  } else {
-    alert('还没有登录，请先登录！');
-    next('/login');
-  }
-});
+//   // vuex中，判断store.gettes.isLogin === false
+//   if (to.path == '/login' || to.path == '/register') {
+//     next();
+//   } else {
+//     alert('还没有登录，请先登录！');
+//     next('/login');
+//   }
+// });
+
+// ⚠️ 2. 后置钩子 -学习
+// 进入组件之后产生作用
+// 没有next方法
+// router.afterEach((to, from) => {
+//   alert("after each");
+// })
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: {App},
+  components: { App },
   template: '<App/>'
 });

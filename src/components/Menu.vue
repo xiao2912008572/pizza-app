@@ -10,12 +10,14 @@
             <th>加入</th>
           </tr>
         </thead>
+        <!-- 遍历菜单列表 -->
         <tbody v-for="item in getMenuItems" :key="item.name">
           <tr>
             <td>
               <strong>{{item.name}}</strong>
             </td>
           </tr>
+          <!-- 遍历pizza的相关参数 -->
           <tr v-for="option in item.options" :key="option.size">
             <td>{{option.size}}</td>
             <td>{{option.price}}</td>
@@ -38,7 +40,7 @@
               <th>价格</th>
             </tr>
           </thead>
-          <tbody v-for="item in baskets" :key="item.name">
+          <tbody v-for="item in baskets">
             <tr>
               <td>
                 <button class="btn btn-sm" @click="decreaseQuantity(item)">-</button>
@@ -50,7 +52,7 @@
             </tr>
           </tbody>
         </table>
-        <p>总价: </p>
+        <p>总价 : {{total + "RMB"}} </p>
         <button class="btn btn-success btn-block">提交</button>
       </div>
       <div v-else>
@@ -114,14 +116,46 @@ export default {
       }
     };
   },
+  computed: {
+    total() {
+      let totalCost = 0;
+
+      // 遍历haskets数组，这个数组存放的是购物车对象
+      for (let index in this.baskets) {
+        // 拿到每个对象
+        let individualItem = this.baskets[index];
+        totalCost += individualItem.quantity * individualItem.price;
+      }
+      return totalCost;
+    }
+  },
   methods: {
     addToBasket(item, option) {
-      this.baskets.push({
+      // 用一个对象来接收相关值
+      let basket = {
         name: item.name,
         size: option.size,
         price: option.price,
         quantity: 1
-      });
+      };
+
+      if (this.baskets.length > 0) {
+        // 过滤，ES6语法，遍历baskets中的每一个basket，然后判断basket的name是否等于新增时候传进来的item的name，
+        // 判断basket的price是否等于新增时传进来的item的price，这里的basket是作为一个位置参数
+        let result = this.baskets.filter(basket => {
+          return basket.name === item.name && basket.price === option.price;
+        });
+        // 如果找到的结果不为空并且长度>0 ,那么就把结果中的第一条的数据数量自加
+        if (result != null && result.length > 0) {
+          console.log("result", result);
+          result[0].quantity++;
+        } else {
+          this.baskets.push(basket);
+        }
+      } else {
+        // 直接push添加到baskets
+        this.baskets.push(basket);
+      }
     },
     decreaseQuantity(item) {
       item.quantity--;
@@ -134,7 +168,7 @@ export default {
     },
     increaseQuantity(item) {
       item.quantity++;
-      console.log("incresabaskets", this.baskets);
+      // console.log("incresabaskets", this.baskets);
     },
     removeFromBasket(item) {
       // splice拿掉数组某个下标的数据，删除的数为1

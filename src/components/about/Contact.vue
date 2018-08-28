@@ -6,7 +6,7 @@
       <p class="card-text">291008572@qq.com</p>
 
       <router-link :to="{name:'phoneNumber'}">电话</router-link>
-      <ro uter-link :to="{name:'personName'}">联系人</ro>
+      <router-link :to="{name:'personName'}">联系人</router-link>
 
       <router-view></router-view>
 
